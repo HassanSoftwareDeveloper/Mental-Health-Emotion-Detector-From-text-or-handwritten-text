@@ -1,67 +1,3 @@
-# #pipeline is a simple way to load pretrained 
-# # model for task like summarization , emotion detection etc
-
-# from transformers import pipeline
-
-# import torch
-
-# classifier= pipeline("text-classification", 
-# # model="nlptown/bert-base-multilingual-uncased",
-#                       model="j-hartmann/emotion-english-distilroberta-base",
-#                       top_k=None)
-
-
-# [
-#   {"label": "joy", "score": 0.85},
-#   {"label": "sadness", "score": 0.03},
-#   {"label": "anger", "score": 0.02},
-#   ...
-# ]
-
-
-# # to make it easy to use this in a Streamlit app or other code
-# def detect_emotions(text):
-#     # check if the input is empty or white space
-#     if not text.strip():
-#         return[{"label": "No text " , " score": 1.0}]
-# # send text to the hugging face emotion classifier
-#     result =classifier(text)
-#     return result [0]
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 from transformers import pipeline
 import torch
@@ -70,8 +6,10 @@ import torch
 classifier = pipeline(
     "text-classification",
     model="j-hartmann/emotion-english-distilroberta-base",
-    top_k=None,
-    device=0 if torch.cuda.is_available() else -1
+    top_k=7,
+    device=0 if torch.cuda.is_available() else -1,
+    framework="pt",  
+    return_all_scores=True  
 )
 
 # Map emotions to mental health categories
@@ -131,4 +69,4 @@ def simple_emotion_detection(text):
     
     # Sort by score descending
     emotions.sort(key=lambda x: x['score'], reverse=True)
-    return emotions[:4]  # Return top 4 emotions
+    return emotions[:4]  

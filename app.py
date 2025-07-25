@@ -66,7 +66,7 @@ if uploaded_file:
     image_np = np.array(image)
     st.image(image, caption="Uploaded Image", use_column_width=True)
 
-    if st.button("Extract Text and Analyze"):
+    if st.button("Click For Results"):
         with st.spinner("Processing..."):
             start_time = time.time()
             
@@ -79,16 +79,16 @@ if uploaded_file:
                 mode=ocr_mode.lower(), 
                 show_steps=show_steps
             )
-            st.subheader("Extracted Text")
+            st.subheader("Extracted Text From Image")
             st.text_area("Raw OCR Output", extracted_text, height=150)
 
             # Clean text
             cleaned_text = clean_text(extracted_text)
-            st.subheader("Cleaned Text")
+            st.subheader("Cleaned Text From Extracted Text")
             st.text_area("After NLP Processing", cleaned_text, height=100)
 
             # Emotion detection
-            st.subheader("Emotion Analysis")
+            st.subheader("Emotion Analysis From Cleaned")
             if cleaned_text.strip():
                 try:
                     emotions = detect_emotions(cleaned_text)
